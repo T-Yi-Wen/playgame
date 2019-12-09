@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <style>
+        html,body,#container{
+            height:100%;
+        }
+        .info{
+            width:26rem;
+        }
+    </style>
+</head>
+<body>
+	<div id='container'></div>
+<!--<div class="info">-->
+    <!--<h4 id='status'></h4><hr>-->
+    <!--<p id='result'></p><hr>-->
+    <!--<p >由于众多浏览器已不再支持非安全域的定位请求，为保位成功率和精度，请升级您的站点到HTTPS。</p>-->
+<!--</div>-->
+<script src="js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=f1575befd33f5e3ad3860e3695604576"></script>
+<script type="text/javascript">
+//  var map = new AMap.Map('container', {
+//      resizeEnable: true
+//  });
+//  AMap.plugin('AMap.Geolocation', function() {
+//      var geolocation = new AMap.Geolocation({
+//          enableHighAccuracy: true,//是否使用高精度定位，默认:true
+//          timeout: 10000,          //超过10秒后停止定位，默认：5s
+//          buttonPosition:'RB',    //定位按钮的停靠位置
+//          buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+//          zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+//
+//      });
+//      map.addControl(geolocation);
+//      geolocation.getCurrentPosition(function(status,result){
+//          if(status=='complete'){
+//              onComplete(result)
+//          }else{
+//              onError(result)
+//          }
+//      });
+//  });
+//  //解析定位结果
+//  function onComplete(data) {
+//      document.getElementById('status').innerHTML='定位成功'
+//      var str = [];
+//      str.push('定位结果：' + data.position);
+//      str.push('定位类别：' + data.location_type);
+//      if(data.accuracy){
+//           str.push('精度：' + data.accuracy + ' 米');
+//      }//如为IP精确定位结果则没有精度信息
+//      str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+//      document.getElementById('result').innerHTML = str.join('<br>');
+//  }
+//  //解析定位错误信息
+//  function onError(data) {
+//      document.getElementById('status').innerHTML='定位失败'
+//      document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
+//  }
+		
+		
+		
+		
+	
+$(function(){
+var u = navigator.userAgent, app = navigator.appVersion; 
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器 
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端 
+alert('是否是Android：'+isAndroid); 
+alert('是否是iOS：'+isiOS);
+if(isAndroid){
+	$ ("#choose").attr('capture','camera');
+	}
+});
+
+		
+
+   //初始化地图对象，加载地图
+//  var map = new AMap.Map('container', {
+//      resizeEnable: true
+//  });
+//  var options = {
+//      'showButton': true,//是否显示定位按钮
+//		'buttonPosition': 'LB',//定位按钮的位置
+//		/* LT LB RT RB */
+//		'buttonOffset': new AMap.Pixel(10, 20),//定位按钮距离对应角落的距离
+//		'showMarker': true,//是否显示定位点
+//		'markerOptions':{//自定义定位点样式，同Marker的Options
+//		  'offset': new AMap.Pixel(-18, -36),
+//		  'content':'<img src="https://a.amap.com/jsapi_demos/static/resource/img/user.png" style="width:36px;height:36px"/>'
+//		},
+//		'showCircle': true,//是否显示定位精度圈
+//		'circleOptions': {//定位精度圈的样式
+//			'strokeColor': '#0093FF',
+//			'noSelect': true,
+//			'strokeOpacity': 0.5,
+//			'strokeWeight': 1,
+//			'fillColor': '#02B0FF',
+//			'fillOpacity': 0.25
+//		}
+//  }
+//  AMap.plugin(["AMap.Geolocation"], function() {
+//      var geolocation = new AMap.Geolocation(options);
+//      map.addControl(geolocation);
+//      geolocation.getCurrentPosition()
+//  });
+
+  var map, geolocation;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true
+    });
+    
+    function onError(data) {
+	alert(JSON.stringify(data));
+//	alert('定位失败')
+	}
+    
+     function onSuccess(data) {
+			alert(JSON.stringify(data));
+		//	alert('定位失败')
+	}
+    map.plugin('AMap.Geolocation', function () {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 15000,          //超过15秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition: 'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onSuccess);//返回定位信息
+        console.log(AMap.event.addListener(geolocation, 'complete', onSuccess))//返回定位信息
+        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    });
+
+
+</script>
+</body>
+</html>
