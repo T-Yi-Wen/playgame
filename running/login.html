@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>登录</title>
+	<link rel="stylesheet" href="css/base.css" />
+	<style>
+		.login-bgbox{
+			width: 100%;
+			height: 100%;
+			background:url(img/loginbg.png) no-repeat ;
+			background-size:100% 100% ;
+			/*background-size: cover;*/
+			overflow: hidden;
+		}
+		.login{
+			width: 300px;
+			/*padding:0 20px;*/
+			
+			margin: 30vh auto 0;
+			/*margin: 170px auto 0;*/
+			/*background-color: red;*/
+			font-size: 1.2rem;
+		}
+		
+		.user-box{
+			width: 100%;
+			/*background-color: #fff;*/
+			margin-bottom: 20px;
+			/*border-bottom: 1px solid #b5b5b5;*/	
+			position: relative;
+		}
+		
+		.myimg{
+			display: inline-block;
+			/*border: 1px solid #fff;*/
+			background-color: #fff;
+			/*border-bottom: 1px solid #b5b5b5;*/	
+			width: 100%;
+			padding:0 40px;
+			padding-left: 50px;
+			height: 45px;
+			line-height: 45px;
+			/*background: transparent !important;*/
+			font-size: 1rem;
+			border-radius: 20px;
+			
+		}
+	input:-webkit-autofill , textarea:-webkit-autofill, select:-webkit-autofill {  
+	    -webkit-text-fill-color: #333 !important;  
+	    -webkit-box-shadow: 0 0 0px 1000px transparent  inset !important;  
+	    background-color:transparent;  
+	    background-image: none;  
+    	transition: background-color 50000s ease-in-out 0s; //背景色透明  生效时长  过渡效果  启用时延迟的时间  
+}  
+	
+		.myicon-box{
+			position: absolute;
+			top: 0;
+			left: 20px;
+			width: 20px;
+			height:40px;
+			display: inline-block;
+			float: left;
+			
+		}
+		.login-icon{
+			position:absolute;
+			top: 0;
+			left:0;
+			right: 0;
+			bottom: 0;
+			margin: auto ;
+			width: 17px;
+			height: 17px;
+		}
+		.login-btn{
+			height: 40px;
+			width: 100%;
+			border-radius: 40px;
+			background-color: #FB7341;
+			color:#fff;
+			text-align: center;
+			line-height: 40px;
+			cursor: pointer;
+		}
+		.error-box{
+			color:red;
+			margin-bottom: 20px;
+			height: 30px;
+		}
+		.mytit{
+			width: 100%;
+			text-align: center;
+			margin-bottom: 15px;
+			color:#fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="login-bgbox">
+		<div class="login">
+			<!--<div class="mytit">登录</div>-->
+			<div class="user-box">
+				<i class="myicon-box">
+					<img src="img/urse1.png" alt="" class="login-icon"  />
+				</i>
+				<input type="text" class="myimg" placeholder="请输入账号" id="user" />
+			</div>
+			<div class="user-box">
+				<i class="myicon-box">
+					<img src="img/password.png" alt="" class="login-icon"    />
+				</i>
+				<input type="password" class="myimg" placeholder="请输入密码" id="pass" />
+			</div>
+			
+			<div class="btn-box">
+				<div class="login-btn">登录</div>
+			</div>
+			<div class="error-box"></div>
+		</div>
+	</div>
+</body>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/myhref.js"></script>
+<script type="text/javascript">
+	$(function(){
+//		alert($.cookie("myid"))
+		$("#user").val($.cookie("myuser"))
+		$("#pass").val($.cookie("mypass"))
+	})
+	//登录
+	$(".login-btn").click(function(){
+//	
+		$.ajax({
+			xhrFields: {
+					withCredentials: true
+			},
+			url:myhref+"/api/user/login",
+			type:"post",
+			data:{
+				userAccount:$("#user").val(), //账号
+				userPassword:$("#pass").val().trim() //密码
+			},
+			success:function(res){
+				var mydata=res.data
+				if(res.status==0){
+//					alert(mydata.id)
+					$.cookie("myid",mydata.id)
+					$.cookie("myuser",$("#user").val(),{ expires: 60 })
+					$.cookie("mypass",$("#pass").val().trim(),{ expires: 60 })
+					$(".error-box").html("")
+					location.href="user/index.html"
+				}else{
+//					myat(res.status,res.message)
+					$(".error-box").html(res.message)
+				}
+				
+			},
+			error:function(){
+				
+			}
+		})
+//		
+	})
+</script>
+</html>

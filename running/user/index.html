@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>成跑打卡</title>
+	<link rel="stylesheet" href="../css/base.css" />
+	<style type="text/css">
+		#container{
+            height:100%;
+            position: relative;
+        }
+         .custom-content-marker {
+            position: relative;
+            width: 25px;
+            height: 34px;
+        }
+
+        .custom-content-marker img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-content-marker .close-btn {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            width: 15px;
+            height: 15px;
+            font-size: 12px;
+            background: #ccc;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            line-height: 15px;
+            box-shadow: -1px 1px 1px rgba(10, 10, 10, .2);
+        }
+
+        .custom-content-marker .close-btn:hover{
+            background: #666;
+        }
+        
+        .btn-box{
+        	width: 100%;
+        	height: 10%;
+        	/*background-color: pink;*/
+        	text-align: center;
+        	position: absolute;
+        	bottom:40px;
+        }
+        .mybtn{
+        	width: 200px;
+        	height: 30px;
+        	line-height: 30px;
+        	margin: 0 auto;
+			background-color: #FB7704;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto auto;
+        	color:#fff;
+        	border-radius: 15px;
+        }
+        
+       
+	</style>
+</head>
+<body>
+	<div id='container'></div>
+	<div class="btn-box">
+		<div class="mybtn">打卡</div>
+	</div>
+	<div class="foot">
+		<div class="foot-box">
+			<div class="btn ">
+				<a href="javascript:;" style="color:#FB7704">
+					<div class="foot-img-box">
+						<img src="../img/pao2.png" class="foot-img">
+						<span>运动</span>
+					</div>
+				</a>
+			</div>
+			<div class="btn">
+				<a href="message.html">
+					<div class="foot-img-box">
+						<img src="../img/mas1.png" class="foot-img" style="margin-left:0;width:24px;">
+						<span>消息</span>
+					</div>
+				</a>
+			</div>
+			<div class="btn">
+				<a href="my.html">
+					<div class="foot-img-box">
+						<img src="../img/my1.png" class="foot-img">
+						<span>我的</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="../js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=f1575befd33f5e3ad3860e3695604576"></script>
+<script src="../js/myhref.js"></script>
+<script src="../js/jquery.cookie.js" ></script>
+<script type="text/javascript">
+	
+	$(function(){
+//		alert($.cookie("myid"))
+		if($.cookie("myid")){
+			console.log("有id")
+		}else{
+			location.href="../login.html"
+		}
+	})
+
+  var map, geolocation, mylat , mylng,myif=0;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true,
+         zoom: 18
+    });
+    
+    function onError(data) {
+//  alert(JSON.stringify(data))
+	console.log(JSON.stringify(data));
+	if(data.message=="Geolocation permission denied."){
+		alert('定位失败,没有开启定位权限')
+	}else if(data.message=="Get geolocation time out."){
+		alert("获取定位超时")
+	}else{
+		alert("未知错误")
+	}
+	
+	}
+    
+     function onSuccess(data) {
+//			console.log(data);
+			console.log(data.position)
+			mylat=data.position.lat
+			mylng=data.position.lng
+//			alert('定位成功')
+			if(myif==1){
+				ok()
+			}else{
+//				console.log("不提交")
+			}
+	}
+//  function fn(v){
+	    map.plugin('AMap.Geolocation', function () {
+	       geolocation = new AMap.Geolocation({
+		            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+		            timeout: 1500,          //超过15秒后停止定位，默认：无穷大
+		            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+		            zoomToAccuracy: false,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+		            buttonPosition: 'RT',   //按钮位置
+		            'showCircle': false,  //精度范围
+					panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+		            'markerOptions':{//自定义定位点样式，同Marker的Options
+				  	'offset': new AMap.Pixel(-18, -36),
+				  	'content':'<img src="https://a.amap.com/jsapi_demos/static/resource/img/user.png" style="width:36px;height:36px"/>'
+					},
+	        	});
+	        map.addControl(geolocation);
+	        geolocation.getCurrentPosition();
+	        AMap.event.addListener(geolocation, 'complete', onSuccess);//返回定位信息
+	        console.log(AMap.event.addListener(geolocation, 'complete', onSuccess))//返回定位信息
+	        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+	    });
+//	}
+	
+//	fn()
+	
+//	var pos=[
+//			[121.51164,30.838985],  //44号宿舍楼
+//			[121.518154,30.833518], //体育学院右下
+//			[121.521598,30.838828], //最右下
+////			[121.519117,30.841303] //生命与科学
+//		]
+	
+	
+//	for(var i=0;i<pos.length;i++){
+//		var v=i+1
+//		if(i==0){
+//			var markerContent = '' +
+//		        '<div class="custom-content-marker">' +
+//		        '   <img src="https://webapi.amap.com/theme/v1.3/markers/n/start.png" >' +
+//		        '   <div class="close-btn" >'+v+'</div>' +
+//		        '</div>';
+//		}else if(i==pos.length-1){
+//			var markerContent = '' +
+//		        '<div class="custom-content-marker">' +
+//		        '   <img src="https://webapi.amap.com/theme/v1.3/markers/n/end.png" >' +
+//		        '   <div class="close-btn" >'+v+'</div>' +
+//		        '</div>';
+//		}else{
+//			var markerContent = '' +
+//		        '<div class="custom-content-marker">' +
+//		        '   <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png" >' +
+//		        '   <div class="close-btn" >'+v+'</div>' +
+//		        '</div>';
+//		}
+//		
+//
+//	    var marker = new AMap.Marker({
+//	        position: pos[i],
+//	        // 将 html 传给 content
+//	        content: markerContent,
+//	        // 以 icon 的 [center bottom] 为原点
+//	        offset: new AMap.Pixel(-13, -30)
+//	    });
+//	    map.add(marker);
+//	    
+//	}
+	
+	$(".mybtn").click(function(){
+		myif=1
+	    geolocation.getCurrentPosition();
+	})
+	
+	//发请求
+	function ok(){
+		alert("lat:"+mylat+" , mylng:"+mylng)
+		
+		$.ajax({
+			xhrFields: {
+				withCredentials: true
+			},
+			//api/route/selectStudentSignIn
+			url:myhref+"api/route/selectStudentSignIn",
+			type:"post",
+			//			async:true
+			data:{
+				posLongitude:mylat,  //经度：posLongitude
+										//纬度：posLatitude
+				posLatitude:mylng
+			},
+			success:function(res){
+				console.log(res.data)
+				var mydata=res.data	
+				myif=0
+				if(res.status==0){
+					myat(res.status,res.message)
+				}else{
+					myat(1,res.message)
+				}
+			},
+			error:function(){
+				console.log("失败")
+			}
+		});
+
+	}
+	
+	
+	
+	//随机路线
+	function st(){
+		
+		$.ajax({
+			xhrFields: {
+					withCredentials: true
+			},
+			url:myhref+"api/route/selectRandomRoute",
+			type:"post",
+//			async:true
+//			data:{
+//				
+//			},
+			success:function(res){
+				console.log(111)
+				console.log(res)
+				if(res.status==0){
+					$.ajax({
+						xhrFields: {
+								withCredentials: true
+						},
+						url:myhref+"api/route/selectRoute",
+						type:"post",
+			//			async:true
+			//			data:{
+			//				
+			//			},
+						success:function(res){
+							
+							console.log(res.data)
+							var mydata=res.data
+							if(res.status==0){
+								
+								for(var i=0;i<mydata.length;i++){
+									var v=i+1
+									var mypos=[]
+									if(i==0){
+									var markerContent = '' +
+									        '<div class="custom-content-marker">' +
+									        '   <img src="https://webapi.amap.com/theme/v1.3/markers/n/start.png" >' +
+									        '   <div class="close-btn" >'+v+'</div>' +
+									        '</div>';
+									}else if(i==mydata.length-1){
+										var markerContent = '' +
+									        '<div class="custom-content-marker">' +
+									        '   <img src="https://webapi.amap.com/theme/v1.3/markers/n/end.png" >' +
+									        '   <div class="close-btn" >'+v+'</div>' +
+									        '</div>';
+									}else{
+										var markerContent = '' +
+									        '<div class="custom-content-marker">' +
+									        '   <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png" >' +
+									        '   <div class="close-btn" >'+v+'</div>' +
+									        '</div>';
+									}
+									mypos.push(mydata[i].latitude,mydata[i].longitude)
+							
+								    var marker = new AMap.Marker({
+								        position: mypos,
+								        // 将 html 传给 content
+								        content: markerContent,
+								        // 以 icon 的 [center bottom] 为原点
+								        offset: new AMap.Pixel(-13, -30)
+								    });
+								    map.add(marker);
+								}
+							}else{
+								mylat(1,res.message)
+							}
+						},
+						error:function(){
+							console.log("失败")
+						}
+					});
+				}else{
+					mylat(1,res.message)
+				}
+			},
+			error:function(){
+				console.log("失败")
+			}
+		});
+		
+	}
+	
+	
+	
+	st()
+	
+
+</script>
+</html>

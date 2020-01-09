@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>成跑打卡</title>
+	<link rel="stylesheet" href="../css/base.css" />
+	<style type="text/css">
+		#container{
+			width: 100%;
+          	padding-bottom: 51px;
+          	height: 100%;
+          	overflow: auto;
+        }
+       	.title-box{
+       		height: 50px;
+       		line-height: 50px;
+       		text-align: center;
+       		font-size: 1.5rem;
+       		background-color: #fff;
+       	}
+       	
+       	 .comment-box{
+        	padding:0 10px;
+        	box-sizing: border-box;
+        	width: 100%;
+        	margin-bottom: 10px;
+        }
+        .zongnum-box{
+        	width: 100%;
+        	margin: 10px auto;
+        	/*height: 50px;*/
+        	background-color: #fff;
+        	padding-bottom: 20px;
+        }
+        .zongoknum{
+        	width: 100%;
+        	font-size: 1rem;
+        	background-color: #FAFAFA;
+        	line-height: 1.5;
+        	/*height: 50px;*/
+        	padding:10px;
+        	margin-bottom: 20px;
+        	/*color:#fff;*/
+        }
+        .zongnum{
+        	width: 130px;
+        	height: 130px;
+        	margin: 0 auto;
+        	border: 5px solid #FB7704;
+        	border-radius: 50%;
+        	text-align: center;
+        	line-height: 120px;
+        	font-size: 2rem;
+        	color:#FB7704;
+        	
+        }
+        
+        .xq-tit{
+        	width: 100%;
+        	line-height: 1.5;
+        	background-color: #FAFAFA;
+        	padding:10px;
+        }
+        
+        .xq-ul{
+        	width: 100%;
+        	background-color: #fff;
+        	margin-bottom: 10px;
+        }
+        .xq-ul li{
+        	width: 100%;
+        	border-bottom: 1px solid #000;	
+        }
+         .xq-ul li div{
+         	float: left;
+         	text-align: center;
+         	padding:10px 0;
+         	width: 33%;
+         	min-width: 100px;
+         }
+        
+	</style>
+</head>
+<body>
+	<div id='container'>
+		<div class="title-box">统计</div>
+		<!--内容-->
+		<div class="comment-box">
+			<!--完成次数-->
+			<div class="zongnum-box">
+				<div class="zongoknum">
+					完成次数
+				</div>
+				<div class="zongnum" id="zongnum">
+					0
+				</div>
+				
+			</div>
+			<!--详情-->
+			<div class="xq-box">
+				<div class="xq-tit">详细信息</div>
+				<ul class="xq-ul">
+					<!--<li class="clearfix">-->
+						<!--<div style="min-width:20px;width: 10%;">1</div>-->
+						<!--<div class="myriq">2019-12-24</div>
+						<div class="st-time">开始时间:7.40</div>
+						<div class="end-time">结束时间:8.10</div>
+					</li>-->
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="foot">
+		<div class="foot-box">
+			<div class="btn ">
+				<a href="index.html" >
+					<div class="foot-img-box">
+						<img src="../img/pao1.png" class="foot-img">
+						<span>运动</span>
+					</div>
+				</a>
+			</div>
+			<div class="btn">
+				<a href="message.html">
+					<div class="foot-img-box">
+						<img src="../img/mas1.png" class="foot-img" style="margin-left:0;width:24px;">
+						<span>消息</span>
+					</div>
+				</a>
+			</div>
+			<div class="btn">
+				<a href="javascript:;" style="color:#FB7704">
+					<div class="foot-img-box">
+						<img src="../img/my2.png" class="foot-img">
+						<span>我的</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="../js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=f1575befd33f5e3ad3860e3695604576"></script>
+<script src="../js/myhref.js"></script>
+<script src="../js/jquery.cookie.js" ></script>
+<script type="text/javascript">
+	
+	$(function(){
+//		alert($.cookie("myid"))
+		if($.cookie("myid")){
+			console.log("有id")
+		}else{
+			location.href="../login.html"
+		}
+	})
+	
+	var a=""
+	//查看信息
+	function chush(){
+		$.ajax({
+			xhrFields: {
+					withCredentials: true
+			},
+			url:myhref+"api/runningRecord/selectStudentMySignIn",
+			type:"post",
+//			data:{
+//				userAccount:$("#user").val(), //账号
+//				userPassword:$("#pass").val().trim() //密码
+//			},
+			success:function(res){
+				var mydata=res.data
+				console.log("1")
+				if(res.status==0){
+					if(mydata==null || mydata.langth==0){
+						myat("1","暂无数据")
+						return;
+					}
+					$("#zongnum").html(mydata.length)
+					var html="";
+					console.log(mydata[0].startTime)
+					a=mydata[0].startTime
+					
+					for(var i=0;i<mydata.length;i++){
+						var mytime=mydata[0].startTime.slice(0,10)
+						var sttime=mydata[0].startTime.slice(11,16)
+						var endtime=mydata[0].endTime.slice(11,16)
+						html+='<li class="clearfix">'+
+								'<div class="myriq">'+mytime+'</div>'+
+								'<div class="st-time">开始时间:'+sttime+'</div>'+
+								'<div class="end-time">结束时间:'+endtime+'</div>'+
+							'</li>'
+					}
+					$(".xq-ul").html(html)
+					console.log(html)
+					
+				}else{
+//				
+				}
+				
+			},
+			error:function(){
+				
+			}
+		})
+//		
+		
+	}
+
+ chush()
+
+</script>
+</html>

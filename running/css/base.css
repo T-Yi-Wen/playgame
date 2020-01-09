@@ -1,0 +1,290 @@
+html,body{width: 100%;height: 100%;background: #f5f5f5;background-size: cover;	font-size:14px;font-family: '微软雅黑';}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;word-wrap:break-word;box-sizing: border-box;outline: none;-webkit-tap-highlight-color:transparent;}
+body, dl, dd, h1, h2, h3, h4, h5, h6, p, form{margin:0;}   ol,li ul{margin:0; padding:0;}
+body{-webkit-overflow-scrolling: touch;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+legend{color:#000;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit; outline: none;-webkit-appearance: none;appearance: none;}
+input,button,textarea,select{border-radius:0;border: 0;}
+img,input{ display: inline-block; margin: 0; padding: 0; border: 0 none; outline-style: none;}
+input{vertical-align: bottom; appearance:button; -moz-appearance:button; /*Firefox*/-webkit-appearance:button; /*Safari和Chrome*/; -webkit-border-radius:0; -moz-border-radius:0; -ms-border-radius:0; -o-border-radius:0; outline:none;
+  -webkit-tap-highlight-color:transparent;}
+a,a:active,a:visited{text-decoration: none;color: #ccc;}
+a:hover{color:#333;}
+i{font-style: normal;}
+
+body{
+
+}
+
+input::placeholder {
+    font-size: 1rem !important;
+    letter-spacing: 1px;
+    /*color: #A8C9FF !important;*/
+}
+
+
+
+/* iphone底部填充物 */
+.filler{width: 100%;height: 1.5rem;}
+/* 常用类名基础样式 */
+/* 浮动清浮动 */
+.fl{float: left;}
+.fr{float: right;}
+.clearfix:after {content: " ";display: block;clear: both;height: 0;}
+.clearfix {zoom: 1;}
+/* 显示影藏 */
+.hide{display: none;}
+.show{display: block;}
+
+
+/* 指定某个给定的区域是否允许用户操作，以及如何响应用户操作 */
+/* * { touch-action: pan-y; }  */
+/* 字体加粗 */
+.bold{
+  font-weight: bold;
+}
+/* 字体居 */
+.right{
+  text-align: right;
+}
+.center{
+  text-align: center;
+}
+.left{
+  text-align: left;
+}
+/* 定位方式 */
+.absolute{
+  position: absolute;
+}
+.realtive{
+  position: relative;
+}
+.fixed{
+  position: fixed;
+}
+/* 盒子外部阴影 */
+.out-shadow{box-shadow: 0 0 10px #ECECEC;}
+
+/* 主题色彩 */
+.color-fff {
+  color: #fff;
+}
+.color{
+  color: #006F68;
+}
+.color-999{
+  color: #999;
+}
+.color-666{
+  color: #666;
+}
+.background {
+  background: #006F68;
+}
+.background-fff {
+  background: #fff;
+}
+
+/*适配苹果X*/
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  #btn{
+    padding-bottom:30px !important;
+}
+}
+
+/*适配苹果X smart Max*/
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+  #btn{
+    padding-bottom:30px !important;
+}
+}
+
+/*适配苹果XR */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 2) {
+  #btn{
+    padding-bottom:30px !important;
+}
+}
+
+@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+  #btn{
+    padding-bottom:30px !important;
+}
+}
+
+
+
+
+/* 手机客户端webview 只使用－webkit内核方式即可 */
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #999;
+  font-size: 0.29rem;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #999;
+  font-size: 0.29rem;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: #999;
+  font-size: 0.29rem;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #999;
+  font-size: 0.29rem;
+}
+/* CSS定义input disabled样式的三种方法 */
+
+input:disabled{
+  /* border: 1px solid #DDD; */
+  /* background-color: #F5F5F5; */
+  /* color:#ACA899;opacity: 1; */
+  color: #0067C5;
+  opacity:1
+}
+
+input[disabled]{
+  /* border: 1px solid #DDD;
+  background-color: #F5F5F5;
+  color:#ACA899;opacity: 1; */
+  color: #0067C5;
+  opacity:1
+}
+
+* html input.disabled{
+  /* border: 1px solid #DDD;
+  background-color: #F5F5F5;
+  color:#ACA899;opacity: 1; */
+  color: #0067C5;
+  opacity:1
+}
+
+
+/*遮罩层*/
+.myzzc-box ,.myalert-zzc{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+/*弹窗*/
+#myalert-box{
+	width: 300px;
+	height: 190px;
+	background-color: #fff;
+	position: absolute;
+	top: 0;left: 0;right: 0;bottom: 0;
+	margin:auto auto;
+	
+}
+.myalert-tit{
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #ccc;
+	padding-left: 30px;
+	line-height: 40px;
+	font-size: 14px;
+}
+.myalert-c-box{
+	width: 100%;
+	/*padding:30px 40px 20px 30px;*/
+	padding:30px 40px 0 30px;
+	height: 100px;
+}
+.myalert-c-box span{
+	display: inline-block;
+	line-height: 26px;
+	padding-right:20px;
+	font-size: 14px;
+	color:#333;
+	vertical-align: top;
+}
+.myalert-btn{
+	width: 130px;
+	height: 36px;
+	margin: 0 auto;
+	background-color: #2377D9;
+	color:#fff;
+	font-size: 16px;
+	text-align: center;
+	line-height: 36px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+
+
+
+/*底部*/
+ .foot{
+        	width: 100%;
+        	height: 50px;
+        	position: fixed;
+        	/*top: 0;*/
+        	bottom: 0;
+        	left: 0;
+        	background-color: #fff;
+        	z-index: 1000;
+        }
+        .foot-box{
+        	display: flex;
+        	display: -webkit-flex; /* Safari */
+        	width: 100%;
+        	height: 100%;
+        	justify-content: center;
+        	align-items: center;
+        }
+        .btn{
+        	width: 33%;
+        	text-align: center;
+        	float: left;
+        	height: 100%;
+        	/*line-height: 50px;*/
+        	
+        }
+        .btn a{
+        	display: inline-block;
+        	width: 100%;
+        	height: 100%;
+        	color:#ABABAB;
+        	/*padding:0 20%;*/
+        	box-sizing: border-box;
+        }
+        .foot-img{
+        	width: 20px;
+        	height: 24px;
+        	margin-left: 5px;
+    			margin-top: 5px;
+    			float: left;
+        }
+        
+        .foot-img-box{
+        	width: 40px;
+        	margin:0 auto;
+        	height: 100%;
+        	text-align: center;
+        }
+        .foot-img-box span{
+        	float: left;
+        }
